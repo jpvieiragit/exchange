@@ -17,7 +17,7 @@ Create an initial user named admin with a password of password123.
 python manage.py createsuperuser --email admin@example.com --username admin
 ```
 
-##Testing our API
+## Testing our API
 
 You're now ready to test the API.
 ```
