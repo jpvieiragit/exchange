@@ -20,7 +20,7 @@ python manage.py runserver
 
 You can easily test if the endpoint is working by doing the following in your terminal
 ```
-curl -X POST -H "Content-Type: application/json" -d '{"username":"admin","password":"password123"}' http://localhost:8000/api/token-auth/
+curl -X POST -d "username=admin&password=password123" http://localhost:8000/api/token-auth/
 
 ```
 Now in order to access protected api urls you must include the Authorization: Bearer <your_token> header.
@@ -28,4 +28,4 @@ Now in order to access protected api urls you must include the Authorization: Be
 curl -H "Authorization: Bearer <your_token>" http://localhost:8000/api/transactions/
 
 ```
-More details about endpoints acess [documentation](http://localhost:8000/docs/).
+More details about endpoints access [documentation](http://localhost:8000/docs/).
