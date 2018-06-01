@@ -14,8 +14,11 @@ from .utils import TransactionHelper
 
 class ListCreateAccountsView(generics.ListCreateAPIView):
     """
-        GET accounts/
-        POST accounts/
+    get:
+    Return a list of all the existing accounts.
+
+    post:
+    Create a new account instance.
     """
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
@@ -47,9 +50,10 @@ class ListCreateAccountsView(generics.ListCreateAPIView):
             )
         
 
-class AccountsDetailView(generics.RetrieveUpdateDestroyAPIView):
+class AccountsDetailView(generics.RetrieveAPIView):
     """
-    GET accounts/:id/
+    get:
+    Return details the a existing account.
     """
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
@@ -70,8 +74,11 @@ class AccountsDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 class ListCreateTransactionView(generics.ListCreateAPIView):
     """
-    GET transactions/
-    POST transactions/
+    get:
+    Return a list of all the existing transactions.
+
+    post:
+    Create a new transaction instance.
     """
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer

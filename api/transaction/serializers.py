@@ -10,5 +10,5 @@ class AccountSerializer(serializers.ModelSerializer):
 class TransactionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Transaction
-        fields = '__all__'	
+        fields = ('retirante', 'receptora', 'method', 'qty')
         ordering = ('created_at')
