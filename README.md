@@ -5,15 +5,21 @@ I recommend you use [pipenv](https://github.com/pypa/pipenv).
 pipenv install
 pipenv shell
 ```
+
+## Project setup
+
 Now sync your database for the first time.
 ```
 python manage.py migrate
 ```
-We'll also create an initial user named admin with a password of password123.
+Create an initial user named admin with a password of password123.
 ```
 python manage.py createsuperuser --email admin@example.com --username admin
 ```
-We're now ready to test the API.
+
+##Testing our API
+
+You're now ready to test the API.
 ```
 python manage.py runserver
 ```
