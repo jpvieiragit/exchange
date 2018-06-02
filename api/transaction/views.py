@@ -9,27 +9,7 @@ from rest_framework import permissions
 from .models import Account, Transaction
 from .serializers import AccountSerializer, TransactionSerializer
 from .utils import TransactionHelper
-
-from rest_framework.schemas import AutoSchema
-from coreapi import Field
-
-class CustomViewSchema(AutoSchema):
-    """
-    Overrides 'get_manual_fields()' to provide Custom Behavior X
-    """
-
-    def get_manual_fields(self, path, method):
-        """Example adding per-method fields."""
-
-        extra_fields = []
-        if method=='POST':
-            extra_fields = [
-                Field('username', required=True, location="form", ),
-                Field('password', required=True, location="form", )
-            ]
-
-        manual_fields = super().get_manual_fields(path, method)
-        return manual_fields + extra_fields
+from .schema import TransactionViewSchema, AccountViewSchema
 
 
 class ListCreateAccountsView(generics.ListCreateAPIView):
@@ -43,7 +23,7 @@ class ListCreateAccountsView(generics.ListCreateAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
     permission_classes = (permissions.IsAdminUser, )
-    schema = CustomViewSchema()
+    schema = AccountViewSchema()
 
     def get(self, request, *args, **kwargs):
         return Response(AccountSerializer(self.queryset.all(), many=True).data)
@@ -104,7 +84,7 @@ class ListCreateTransactionView(generics.ListCreateAPIView):
     queryset = Transaction.objects.all()
     serializer_class = TransactionSerializer
     permission_classes = (permissions.IsAuthenticated,)
-
+    schema = TransactionViewSchema()
 
     def get(self, request, *args, **kwargs):
         try:
@@ -132,13 +112,13 @@ class ListCreateTransactionView(generics.ListCreateAPIView):
             }
 
             if method == TRANS_TYPE['TWD']:
-                trans_withdraw_ans = self.action_trans_withdraw(request)
+                trans_ans = self.action_trans_withdraw(request)
 
             if method == TRANS_TYPE['TDEP']:
-                trans_deposit_ans = self.action_trans_deposit(request)
+                trans_ans = self.action_trans_deposit(request)
 
             return Response(
-                data=trans_deposit_ans['data'],
+                data=trans_ans['data'],
                 status=status.HTTP_201_CREATED
             )
 
