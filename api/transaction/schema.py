@@ -13,7 +13,7 @@ class TransactionViewSchema(AutoSchema):
         extra_fields = []
         if method=='POST':
             extra_fields = [
-                Field('account', location="form", )
+                Field('account', description="receptor account number.", location="form", )
             ]
 
         manual_fields = super().get_manual_fields(path, method)

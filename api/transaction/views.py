@@ -90,7 +90,7 @@ class ListCreateTransactionView(generics.ListCreateAPIView):
         try:
             current_user = request.user
             a_transaction = self.queryset.filter(
-                Q(retirante=current_user.id) | Q(receptora=current_user.id)
+                Q(retirante=current_user) | Q(receptora=current_user)
             )
             return Response(TransactionSerializer(a_transaction, many=True).data)
         except Transaction.DoesNotExist:
@@ -136,13 +136,10 @@ class ListCreateTransactionView(generics.ListCreateAPIView):
         qty = request.data.get('qty')
         method = request.data.get('method')
 
-        # default transaction withdraw: not receptor
-        account_id = 0
-
         data_trans_with = {
             "current_user": current_user,
             "method": method,
-            "accountid": account_id,
+            "account": current_user,
             "qty": int(qty),
         }
 
@@ -174,14 +171,14 @@ class ListCreateTransactionView(generics.ListCreateAPIView):
         trans_helper = TransactionHelper()
 
         # verification account exist
-        account_id = trans_helper.checkout_account(account)
+        account = trans_helper.checkout_account(account)
 
-        if account_id:
+        if account:
 
             data_trans_dep = {
                 "current_user": current_user,
                 "method": method,
-                "accountid": account_id,
+                "account": account,
                 "qty": int(qty), 
             }
             

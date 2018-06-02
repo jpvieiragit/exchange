@@ -17,8 +17,8 @@ class Transaction(models.Model):
         ('TDEP', 'Deposit'),
     )
     
-	retirante = models.IntegerField()
-	receptora = models.IntegerField()
+	retirante = models.ForeignKey(User, on_delete=models.CASCADE, related_name='retirante')
+	receptora = models.ForeignKey(User, on_delete=models.CASCADE, related_name='receptora')
 	method = models.CharField(max_length=4, choices=CHOICES)
 	qty = models.IntegerField(default=0)
 	created_at = models.DateTimeField(default=timezone.now)

@@ -4,8 +4,8 @@ class TransactionHelper(object):
 
     def transaction_insert(self, data):
         a_transaction = Transaction(
-            retirante=data["current_user"].id,
-            receptora=data["accountid"],
+            retirante=data["current_user"],
+            receptora=data["account"],
             method=data["method"],
             qty=data["qty"]
         )
@@ -15,7 +15,7 @@ class TransactionHelper(object):
 
     def account_retirante_update(self, data):
         a_account = Account.objects.get(
-            user_id=data["current_user"].id
+            user=data["current_user"]
         )
         current_balance = a_account.current_balance - data["qty"]
         a_account.current_balance = current_balance
@@ -25,7 +25,7 @@ class TransactionHelper(object):
 
     def account_receptora_update(self, data):
         a_account = Account.objects.get(
-            user_id=data["accountid"]
+            user=data["account"]
         )
         current_balance = a_account.current_balance + data["qty"]
         a_account.current_balance = current_balance
@@ -37,7 +37,7 @@ class TransactionHelper(object):
         a_account = Account.objects.filter(number=data)
         if len(a_account) == 0:
             raise Exception("Account with number: {} does not exist".format(data))
-        return a_account.get().user_id
+        return a_account.get().user
 
 
     def checkout_balance(self, data):

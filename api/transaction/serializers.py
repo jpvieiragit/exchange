@@ -10,7 +10,10 @@ class AccountSerializer(serializers.ModelSerializer):
 
 
 class TransactionSerializer(serializers.ModelSerializer):
+    retirante = serializers.ReadOnlyField(source="retirante.username")
+    receptora = serializers.ReadOnlyField(source="receptora.username")
+
     class Meta:
         model = Transaction
-        fields = ('method', 'qty')
+        fields = ('method', 'qty', 'retirante', 'receptora')
         ordering = ('created_at')
