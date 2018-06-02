@@ -10,6 +10,26 @@ from .models import Account, Transaction
 from .serializers import AccountSerializer, TransactionSerializer
 from .utils import TransactionHelper
 
+from rest_framework.schemas import AutoSchema
+from coreapi import Field
+
+class CustomViewSchema(AutoSchema):
+    """
+    Overrides 'get_manual_fields()' to provide Custom Behavior X
+    """
+
+    def get_manual_fields(self, path, method):
+        """Example adding per-method fields."""
+
+        extra_fields = []
+        if method=='POST':
+            extra_fields = [
+                Field('username', required=True, location="form", ),
+                Field('password', required=True, location="form", )
+            ]
+
+        manual_fields = super().get_manual_fields(path, method)
+        return manual_fields + extra_fields
 
 
 class ListCreateAccountsView(generics.ListCreateAPIView):
@@ -23,6 +43,7 @@ class ListCreateAccountsView(generics.ListCreateAPIView):
     queryset = Account.objects.all()
     serializer_class = AccountSerializer
     permission_classes = (permissions.IsAdminUser, )
+    schema = CustomViewSchema()
 
     def get(self, request, *args, **kwargs):
         return Response(AccountSerializer(self.queryset.all(), many=True).data)
