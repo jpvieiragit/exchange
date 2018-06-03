@@ -64,7 +64,7 @@ class AccountsDetailView(generics.RetrieveAPIView):
         try:
             an_account = self.queryset.get(pk=kwargs['pk'])
             return Response(AccountSerializer(an_account).data)
-        except Songs.DoesNotExist:
+        except Account.DoesNotExist:
             return Response(
                 data={
                     'message': 'Account with number: {} does not exist'.format(kwargs['pk'])
