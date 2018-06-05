@@ -31,8 +31,8 @@ class AccountViewSchema(AutoSchema):
         extra_fields = []
         if method=='POST':
             extra_fields = [
-                Field('Username', required=True, location="form", ),
-                Field('Password', required=True, location="form", )
+                Field('username', required=True, location="form", ),
+                Field('password', required=True, location="form", )
             ]
 
         manual_fields = super().get_manual_fields(path, method)
